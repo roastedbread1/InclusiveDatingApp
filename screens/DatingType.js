@@ -8,26 +8,40 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 const DatingType = () => {
   const [datingPref, setDatingPref] = useState([]);
+  useEffect(() => {
+    getRegistrationProgress('DatingType').then(progressData => {
+      if (progressData) {
+        setDatingPref(progressData.datingPref || []);
+      }
+    });
+  }, []);
   const chooseOption = option => {
     if (datingPref.includes(option)) {
-      setDatingPref(datingPref.filter(item=> item !== option));
+      setDatingPref(datingPref.filter(item => item !== option));
     } else {
       setDatingPref([...datingPref, option]);
     }
   };
   const navigation = useNavigation();
   const handleNext = () => {
+    if (datingPref.length > 0) {
+      saveRegistrationProgress('DatingType', {datingPref});
+    }
     navigation.navigate('LookingFor');
-  }
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -76,7 +90,7 @@ const DatingType = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>Male Niggas</Text>
+            <Text style={{fontSize: 15, fontWeight: 500}}>Male</Text>
             <Pressable onPress={() => chooseOption('Male')}>
               <FontAwesome
                 name="circle"
@@ -92,7 +106,7 @@ const DatingType = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>Shaniqua Niggas</Text>
+            <Text style={{fontSize: 15, fontWeight: 500}}>Female</Text>
             <Pressable onPress={() => chooseOption('Female')}>
               <FontAwesome
                 name="circle"
@@ -109,7 +123,7 @@ const DatingType = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>All Niggas</Text>
+            <Text style={{fontSize: 15, fontWeight: 500}}>Everyone</Text>
             <Pressable onPress={() => chooseOption('Everyone')}>
               <FontAwesome
                 name="circle"
@@ -126,7 +140,11 @@ const DatingType = () => {
             alignItems: 'center',
             gap: 8,
           }}>
-          <AntDesign name="checksquare" size={20} color={datingPref.length > 0 ? 'black' : '#F0F0F0'} />
+          <AntDesign
+            name="checksquare"
+            size={20}
+            color={datingPref.length > 0 ? 'black' : '#F0F0F0'}
+          />
           <Text style={{fontSize: 15}}>Visible on profile</Text>
         </View>
         <TouchableOpacity

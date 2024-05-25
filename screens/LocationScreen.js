@@ -15,6 +15,7 @@ import React, {useEffect, useState} from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useNavigation} from '@react-navigation/native';
+import {saveRegistrationProgress} from '../registrationUtils';
 
 const LocationScreen = () => {
   const [location, setLocation] = useState('');
@@ -107,8 +108,9 @@ const LocationScreen = () => {
   };
 
   const handleNext = () => {
+    saveRegistrationProgress('Location', {location});
     navigation.navigate('Gender');
-  }
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -174,14 +176,17 @@ const LocationScreen = () => {
           </Marker>
         </MapView>
       </View>
-      <TouchableOpacity onPress={handleNext} activeOpacity={0.8} style={{marginTop:30, marginLeft:'auto'}}>
-          <MaterialCommunityIcons
-          style={{alignSelf:'center', marginTop:20}}
-            name="arrow-right-circle"
-            size={45}
-            color="#581845"
-          />
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handleNext}
+        activeOpacity={0.8}
+        style={{marginTop: 30, marginLeft: 'auto'}}>
+        <MaterialCommunityIcons
+          style={{alignSelf: 'center', marginTop: 20}}
+          name="arrow-right-circle"
+          size={45}
+          color="#581845"
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

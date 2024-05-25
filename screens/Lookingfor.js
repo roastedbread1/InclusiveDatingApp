@@ -8,20 +8,35 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
+import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 const Lookingfor = () => {
   const navigation = useNavigation();
+  const [lookingFor, setLookingFor] = useState('');
+  useEffect(() => {
+    getRegistrationProgress('LookingFor').then(progressData => {
+      if (progressData) {
+        setLookingFor(progressData.lookingFor || '');
+      }
+    });
+  }, []);
   const handleNext = () => {
+    if (lookingFor.trim() !== '') {
+      saveRegistrationProgress('LookingFor', {lookingFor});
+    }
     navigation.navigate('Hometown');
   };
-  const [lookingFor, setLookingFor] = useState('');
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -66,12 +81,16 @@ const Lookingfor = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>Long-term relationship</Text>
+            <Text style={{fontSize: 15, fontWeight: 500}}>
+              Long-term relationship
+            </Text>
             <Pressable onPress={() => setLookingFor('Long-term relationship')}>
               <FontAwesome
                 name="circle"
                 size={26}
-                color={lookingFor == 'Long-term relationship' ? '#581845' : '#F0F0F0'}
+                color={
+                  lookingFor == 'Long-term relationship' ? '#581845' : '#F0F0F0'
+                }
               />
             </Pressable>
           </View>
@@ -83,12 +102,21 @@ const Lookingfor = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>Long-term relationship open to short</Text>
-            <Pressable onPress={() => setLookingFor('Long-term relationship open to short')}>
+            <Text style={{fontSize: 15, fontWeight: 500}}>
+              Long-term relationship open to short
+            </Text>
+            <Pressable
+              onPress={() =>
+                setLookingFor('Long-term relationship open to short')
+              }>
               <FontAwesome
                 name="circle"
                 size={26}
-                color={lookingFor == 'Long-term relationship open to short' ? '#581845' : '#F0F0F0'}
+                color={
+                  lookingFor == 'Long-term relationship open to short'
+                    ? '#581845'
+                    : '#F0F0F0'
+                }
               />
             </Pressable>
           </View>
@@ -100,12 +128,18 @@ const Lookingfor = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>short-term relationship</Text>
+            <Text style={{fontSize: 15, fontWeight: 500}}>
+              short-term relationship
+            </Text>
             <Pressable onPress={() => setLookingFor('short-term relationship')}>
               <FontAwesome
                 name="circle"
                 size={26}
-                color={lookingFor == 'short-term relationship' ? '#581845' : '#F0F0F0'}
+                color={
+                  lookingFor == 'short-term relationship'
+                    ? '#581845'
+                    : '#F0F0F0'
+                }
               />
             </Pressable>
           </View>
@@ -117,12 +151,21 @@ const Lookingfor = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>short-term relationship open to long</Text>
-            <Pressable onPress={() => setLookingFor('short-term relationship open to long')}>
+            <Text style={{fontSize: 15, fontWeight: 500}}>
+              short-term relationship open to long
+            </Text>
+            <Pressable
+              onPress={() =>
+                setLookingFor('short-term relationship open to long')
+              }>
               <FontAwesome
                 name="circle"
                 size={26}
-                color={lookingFor == 'short-term relationship open to long' ? '#581845' : '#F0F0F0'}
+                color={
+                  lookingFor == 'short-term relationship open to long'
+                    ? '#581845'
+                    : '#F0F0F0'
+                }
               />
             </Pressable>
           </View>
@@ -134,12 +177,19 @@ const Lookingfor = () => {
               gap: 12,
               justifyContent: 'space-between',
             }}>
-            <Text style={{fontSize: 15, fontWeight: 500}}>Figuring out my dating goals</Text>
-            <Pressable onPress={() => setLookingFor('Figuring out my dating goals')}>
+            <Text style={{fontSize: 15, fontWeight: 500}}>
+              Figuring out my dating goals
+            </Text>
+            <Pressable
+              onPress={() => setLookingFor('Figuring out my dating goals')}>
               <FontAwesome
                 name="circle"
                 size={26}
-                color={lookingFor == 'Figuring out my dating goals' ? '#581845' : '#F0F0F0'}
+                color={
+                  lookingFor == 'Figuring out my dating goals'
+                    ? '#581845'
+                    : '#F0F0F0'
+                }
               />
             </Pressable>
           </View>
@@ -152,7 +202,11 @@ const Lookingfor = () => {
             alignItems: 'center',
             gap: 8,
           }}>
-          <AntDesign name="checksquare" size={20} color={lookingFor.length > 0 ? 'black' : '#F0F0F0'} />
+          <AntDesign
+            name="checksquare"
+            size={20}
+            color={lookingFor.length > 0 ? 'black' : '#F0F0F0'}
+          />
           <Text style={{fontSize: 15}}>Visible on profile</Text>
         </View>
         <TouchableOpacity

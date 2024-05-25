@@ -40,7 +40,7 @@ const BasicInfo = () => {
           <View style={styles.animationContainer}>
             <LottieView
               style={styles.animation}
-              source={require('../assets/couple.json')}
+              source={require('../assets/love2.json')}
               autoPlay
               loop={true}
               speed={0.7}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 200,
   },
   animationContainer: {
     width: 250, // Adjust the width as needed

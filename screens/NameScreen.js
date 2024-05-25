@@ -8,19 +8,32 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useNavigation } from '@react-navigation/native';
-
-
-
+import {useNavigation} from '@react-navigation/native';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 
 const NameScreen = () => {
-  const {firstName, setFirstName} = useState('');
+  const [firstName, setFirstName] = useState('');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getRegistrationProgress('Name').then(progressData => {
+      if (progressData) {
+        setFirstName(progressData.firstName || '');
+      }
+    });
+  }, []);
+
   const handleNext = () => {
-  navigation.navigate('Email');
+    if (firstName.trim() !== '') {
+      saveRegistrationProgress('Name', {firstName});
+    }
+    navigation.navigate('Email');
   };
 
   return (
@@ -99,8 +112,8 @@ const NameScreen = () => {
 
           <TextInput
             autoFocus={true}
-            value={firstName}
-            onChangeText={text => setFirstName(text)}
+            // value={firstName}
+            // onChangeText={text => setFirstName(text)}
             placeholder="Last Name"
             placeholderTextColor={'#BEBEBE'}
             style={{
@@ -119,9 +132,12 @@ const NameScreen = () => {
             Last name is optional
           </Text>
         </View>
-        <TouchableOpacity onPress={handleNext} activeOpacity={0.8} style={{marginTop:30, marginLeft:'auto'}}>
+        <TouchableOpacity
+          onPress={handleNext}
+          activeOpacity={0.8}
+          style={{marginTop: 30, marginLeft: 'auto'}}>
           <MaterialCommunityIcons
-          style={{alignSelf:'center', marginTop:20}}
+            style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
             color="#581845"

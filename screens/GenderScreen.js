@@ -13,13 +13,28 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 
 const GenderScreen = () => {
   const [gender, setGender] = useState('');
   const navigation = useNavigation();
+  useEffect(() => {
+    getRegistrationProgress('Gender').then(progressData => {
+      if (progressData) {
+        setGender(progressData.gender || '');
+      }
+    });
+  }, []);
+
   const handleNext = () => {
+    if (gender.trim() !== '') {
+      saveRegistrationProgress('Gender', {gender});
+    }
     navigation.navigate('Type');
   };
   return (
@@ -130,7 +145,11 @@ const GenderScreen = () => {
             alignItems: 'center',
             gap: 8,
           }}>
-          <AntDesign name="checksquare" size={20} color={gender.length > 0 ? 'black' : '#F0F0F0'} />
+          <AntDesign
+            name="checksquare"
+            size={20}
+            color={gender.length > 0 ? 'black' : '#F0F0F0'}
+          />
           <Text style={{fontSize: 15}}>Visible on profile</Text>
         </View>
         <TouchableOpacity

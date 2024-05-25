@@ -1,11 +1,22 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity} from 'react-native';
-import React, {useRef, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {BooleanSchema} from 'yup';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
+import {BooleanSchema, date} from 'yup';
 const BirthScreen = () => {
   const navigation = useNavigation();
   const monthRef = useRef(null);
@@ -27,13 +38,29 @@ const BirthScreen = () => {
       yearRef.current.focus();
     }
   };
-    const handleYearChange = text => {
+  const handleYearChange = text => {
     setYear(text);
-    };
+  };
 
-    const handleNext = () => {
-      navigation.navigate('Location');
-    };
+  useEffect(() => {
+    getRegistrationProgress('Birth').then(progressData => {
+      if (progressData) {
+        const {dateOfBirth} = progressData;
+        const [dayValue, monthValue, yearValue] = dateOfBirth.split('/');
+        setDay(dayValue);
+        setMonth(monthValue);
+        setYear(yearValue);
+      }
+    });
+  }, []);
+  const handleNext = () => {
+    if (day.trim() !== '' && month.trim() !== '' && year.trim() !== '') {
+      const dateOfBirth = `${day}/${month}/${year}`;
+      saveRegistrationProgress('Birth', {dateOfBirth});
+    }
+
+    navigation.navigate('Location');
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -78,7 +105,13 @@ const BirthScreen = () => {
           Enter your date of birth
         </Text>
 
-        <View style= {{flexDirection: 'row', gap: 10, marginTop:80, justifyContent: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 10,
+            marginTop: 80,
+            justifyContent: 'center',
+          }}>
           <TextInput
             autoFocus={true}
             placeholder="DD"
@@ -96,7 +129,6 @@ const BirthScreen = () => {
               color: 'black',
               marginTop: 20,
             }}
-
           />
 
           <TextInput
@@ -117,14 +149,13 @@ const BirthScreen = () => {
               color: 'black',
               marginTop: 20,
             }}
-
           />
 
           <TextInput
             ref={yearRef}
             autoFocus={true}
             placeholder="YYYY"
-            maxLength={2}
+            maxLength={4}
             keyboardType="numeric"
             value={year}
             onChangeText={handleYearChange}
@@ -141,9 +172,12 @@ const BirthScreen = () => {
           />
         </View>
 
-        <TouchableOpacity onPress={handleNext} activeOpacity={0.8} style={{marginTop:30, marginLeft:'auto'}}>
+        <TouchableOpacity
+          onPress={handleNext}
+          activeOpacity={0.8}
+          style={{marginTop: 30, marginLeft: 'auto'}}>
           <MaterialCommunityIcons
-          style={{alignSelf:'center', marginTop:20}}
+            style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
             color="#581845"

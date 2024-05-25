@@ -1,19 +1,31 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, SafeAreaView, TextInput,TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-
-
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 const PasswordScreen = () => {
-  const {password, setPasswrord} = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
-  const handleNext  = () => {
+  const handleNext = () => {
+    if (password.trim() !== '') {
+      saveRegistrationProgress('Password', {password});
+    }
     navigation.navigate('Birth');
-  }
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -57,7 +69,7 @@ const PasswordScreen = () => {
           autoFocus={true}
           secureTextEntry={true}
           value={password}
-          onChangeText={text => setPasswrord(text)}
+          onChangeText={text => setPassword(text)}
           placeholder="Enter your password"
           placeholderTextColor={'#BEBEBE'}
           style={{
@@ -71,10 +83,13 @@ const PasswordScreen = () => {
             fontSize: password ? 22 : 22,
           }}
         />
-        <Text style={{color: 'gray', fontSize: 15, marginTop: 7}}>NIGGER</Text>
-        <TouchableOpacity onPress={handleNext} activeOpacity={0.8} style={{marginTop:30, marginLeft:'auto'}}>
+        {/* <Text style={{color: 'gray', fontSize: 15, marginTop: 7}}></Text> */}
+        <TouchableOpacity
+          onPress={handleNext}
+          activeOpacity={0.8}
+          style={{marginTop: 30, marginLeft: 'auto'}}>
           <MaterialCommunityIcons
-          style={{alignSelf:'center', marginTop:20}}
+            style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
             color="#581845"

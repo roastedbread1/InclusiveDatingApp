@@ -15,14 +15,16 @@ import {
 import React, {useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+
 
 const PromptScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const handleNext = () => {
+    navigation.navigate('PreFinal');
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -192,6 +194,17 @@ const PromptScreen = () => {
             </View>
           )}
         </View>
+        <TouchableOpacity
+          onPress={handleNext}
+          activeOpacity={0.8}
+          style={{marginTop: 30, marginLeft: 'auto'}}>
+          <MaterialCommunityIcons
+            style={{alignSelf: 'center', marginTop: 20}}
+            name="arrow-right-circle"
+            size={45}
+            color="#581845"
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

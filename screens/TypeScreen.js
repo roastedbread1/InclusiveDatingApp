@@ -14,16 +14,32 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 
 const TypeScreen = () => {
   const [type, setType] = useState('');
   const navigation = useNavigation();
-  const handleNext = () =>{
-    if(type.length > 0) {
-    } navigation.navigate('Dating');
-  }
-      
+  useEffect(() => {
+    getRegistrationProgress('Type').then(progressData => {
+      if (progressData) {
+        setType(progressData.type || '');
+      }
+    });
+  }, []);
+
+  const handleNext = () => {
+    if (type.trim() !== '') {
+      saveRegistrationProgress('Type', {type});
+    }
+    if (type.length > 0) {
+    }
+    navigation.navigate('Dating');
+  };
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 90, marginHorizontal: 20}}>
@@ -127,7 +143,11 @@ const TypeScreen = () => {
             alignItems: 'center',
             gap: 8,
           }}>
-          <AntDesign name="checksquare" size={20} color={type.length > 0 ? 'black' : '#F0F0F0'} />
+          <AntDesign
+            name="checksquare"
+            size={20}
+            color={type.length > 0 ? 'black' : '#F0F0F0'}
+          />
           <Text style={{fontSize: 15}}>Visible on profile</Text>
         </View>
         <TouchableOpacity

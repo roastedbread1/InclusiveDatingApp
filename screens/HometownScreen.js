@@ -9,19 +9,30 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 
 const HometownScreen = () => {
   const [hometown, setHomeTown] = useState('');
   const navigation = useNavigation();
+  useEffect(() => {
+    getRegistrationProgress('Hometown').then(progressData => {
+      if (progressData) {
+        setHomeTown(progressData.hometown || '');
+      }
+    });
+  }, []);
   const handleNext = () => {
+    if (hometown.trim() !== '') {
+      saveRegistrationProgress('Hometown', {hometown});
+    }
     navigation.navigate('Photos');
   };
 
@@ -59,10 +70,10 @@ const HometownScreen = () => {
             color: 'black',
             marginTop: 15,
           }}>
-          crib location
+          Where's your hometown?
         </Text>
         <TextInput
-        autoFocus={true}
+          autoFocus={true}
           value={hometown}
           onChangeText={text => setHomeTown(text)}
           placeholder="HomeTown"
@@ -79,7 +90,7 @@ const HometownScreen = () => {
           }}
         />
 
-<TouchableOpacity
+        <TouchableOpacity
           onPress={handleNext}
           activeOpacity={0.8}
           style={{marginTop: 30, marginLeft: 'auto'}}>

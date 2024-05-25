@@ -12,29 +12,46 @@ import {
   ScrollView,
   Image,
   Button,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Octicons from 'react-native-vector-icons/Octicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {
+  getRegistrationProgress,
+  saveRegistrationProgress,
+} from '../registrationUtils';
 
 const PhotoScreen = () => {
   const navigation = useNavigation();
   const [imageUrls, setImageUrls] = useState(['', '', '', '', '', '']);
   const [imageUrl, setImageUrl] = useState('');
+
   const handleAddImage = () => {
     const index = imageUrls.findIndex(url => url === '');
-    if (index !== -1) {
+    if (index !== -1 && imageUrl) {
       const updatedUrls = [...imageUrls];
       updatedUrls[index] = imageUrl;
       setImageUrls(updatedUrls);
       setImageUrl('');
+    } else {
+      Alert.alert('Error', 'Please enter a valid image URL');
     }
   };
+
+  useEffect(() => {
+    getRegistrationProgress('Photos').then(progressData => {
+      if (progressData && progressData.imageUrls) {
+        setImageUrls(progressData.imageUrls || ['', '', '', '', '', '']);
+      }
+    });
+  }, []);
+
   const handleNext = () => {
+    saveRegistrationProgress('Photos', {imageUrls});
     navigation.navigate('Prompt');
   };
 
@@ -97,7 +114,15 @@ const PhotoScreen = () => {
                   }}
                   key={index}>
                   {url ? (
-                    <Image source={{uri: url}} />
+                    <Image
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 10,
+                        resizeMode: 'cover',
+                      }}
+                      source={{uri: url}}
+                    />
                   ) : (
                     <EvilIcons name="image" size={22} color="black" />
                   )}
@@ -127,7 +152,15 @@ const PhotoScreen = () => {
                   }}
                   key={index}>
                   {url ? (
-                    <Image source={{uri: url}} />
+                    <Image
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 10,
+                        resizeMode: 'cover',
+                      }}
+                      source={{uri: url}}
+                    />
                   ) : (
                     <EvilIcons name="image" size={22} color="black" />
                   )}
@@ -176,16 +209,16 @@ const PhotoScreen = () => {
             <Button onPress={handleAddImage} title="Add Image" />
           </View>
           <TouchableOpacity
-          onPress={handleNext}
-          activeOpacity={0.8}
-          style={{marginTop: 30, marginLeft: 'auto'}}>
-          <MaterialCommunityIcons
-            style={{alignSelf: 'center', marginTop: 20}}
-            name="arrow-right-circle"
-            size={45}
-            color="#581845"
-          />
-        </TouchableOpacity>
+            onPress={handleNext}
+            activeOpacity={0.8}
+            style={{marginTop: 30, marginLeft: 'auto'}}>
+            <MaterialCommunityIcons
+              style={{alignSelf: 'center', marginTop: 20}}
+              name="arrow-right-circle"
+              size={45}
+              color="#581845"
+            />
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
