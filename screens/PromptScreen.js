@@ -17,12 +17,13 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
-
+import {saveRegistrationProgress} from '../registrationUtils';
 
 const PromptScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const handleNext = () => {
+    saveRegistrationProgress('Prompt', {prompts: route?.params?.prompts});
     navigation.navigate('PreFinal');
   };
 

@@ -79,7 +79,7 @@ const DatingType = () => {
           Who are you looking to date?
         </Text>
         <Text style={{marginTop: 30, fontSize: 15, color: 'gray'}}>
-          Select some niggas you like to bang (sex)
+          Select your dating preferences
         </Text>
 
         <View style={{marginTop: 30, flexDirection: 'column', gap: 12}}>

@@ -19,19 +19,21 @@ import {
 
 const NameScreen = () => {
   const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
     getRegistrationProgress('Name').then(progressData => {
       if (progressData) {
         setFirstName(progressData.firstName || '');
+        setLastName(progressData.lastName || '');
       }
     });
   }, []);
 
   const handleNext = () => {
     if (firstName.trim() !== '') {
-      saveRegistrationProgress('Name', {firstName});
+      saveRegistrationProgress('Name', {firstName, lastName});
     }
     navigation.navigate('Email');
   };
@@ -112,9 +114,9 @@ const NameScreen = () => {
 
           <TextInput
             autoFocus={true}
-            // value={firstName}
-            // onChangeText={text => setFirstName(text)}
-            placeholder="Last Name"
+            value={lastName}
+            onChangeText={text => setLastName(text)}
+            placeholder="Last Name (optional)"
             placeholderTextColor={'#BEBEBE'}
             style={{
               width: 340,

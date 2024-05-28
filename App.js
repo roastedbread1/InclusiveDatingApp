@@ -9,7 +9,6 @@
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 
-
 import {
   SafeAreaView,
   ScrollView,
@@ -29,7 +28,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { ModalPortal } from 'react-native-modals';
+import {ModalPortal} from 'react-native-modals';
+import {Authprovider} from './AuthContext';
 
 function Section({children, title}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -65,10 +65,14 @@ function App() {
   };
 
   return (
-<>
-<StackNavigator/>
-<ModalPortal/>
-</>
+    <>
+      <Authprovider>
+        <>
+          <StackNavigator />
+          <ModalPortal />
+        </>
+      </Authprovider>
+    </>
   );
 }
 
