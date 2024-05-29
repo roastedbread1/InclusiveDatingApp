@@ -145,3 +145,77 @@ app.get('/matches', async (req, res) => {
     console.log('Error fetching matches', error);
   }
 });
+
+//to update prompts cause I messed up
+app.put('/users/:userId/prompts', async (req, res) => {
+  try {
+    const {userId} = req.params;
+    const {prompts} = req.body;
+
+    if (!Array.isArray(prompts) || prompts.length === 0) {
+      return res
+        .status(400)
+        .json({message: 'Prompts must be a non-empty array'});
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({message: 'User not found'});
+    }
+
+    user.prompts = prompts;
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({message: 'Prompts updated successfully', prompts: user.prompts});
+  } catch (error) {
+    res.status(500).json({error: 'Internal server error'});
+    console.log('Error updating prompts', error);
+  }
+});
+
+//profile liking endpoint
+
+app.post('/like-profile', async (req, res) => {
+  try {
+    const {userId, likedUserId, image, comment} = req.body;
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        receivedLikes: {
+          userId: userId,
+          image: image,
+          comment: comment,
+        },
+      },
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        likedProfiles: likedUserId,
+      },
+    });
+
+    res.status(200).json({message: 'Profile liked successfully'});
+  } catch (error) {
+    res.status(500).json({error: 'Internal server error'});
+    console.log(error);
+  }
+});
+
+app.get('/received-likes/:userId', async (req, res) => {
+  try {
+    const {userId} = req.params;
+
+    const likes = await User.findById(userId).populate(
+      'receivedLikes.userId',
+      'firstName imageUrls prompts',
+    );
+
+    res.status(200).json({receivedLikes: likes.receivedLikes});
+  } catch (error) {
+    res.status(500).json({error: 'Internal server error'});
+  }
+});

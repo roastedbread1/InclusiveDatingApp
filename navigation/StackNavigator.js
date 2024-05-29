@@ -28,6 +28,7 @@ import PromptScreen from '../screens/PromptScreen';
 import ShowPromptsScreen from '../screens/ShowPromptsScreen';
 import PreFinalScreen from '../screens/PreFinalScreen';
 import {AuthContext} from '../AuthContext';
+import SendLikeScreen from '../screens/SendLikeScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -201,6 +202,12 @@ const StackNavigator = () => {
         <Stack.Screen
           name="Main"
           component={BottomTab}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="SendLike"
+          component={SendLikeScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
