@@ -9,7 +9,7 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {decode as base64decode} from 'base-64';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,7 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import api from '../api';
 import {formToJSON} from 'axios';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 // Define the atob function globally using base-64
 global.atob = base64decode;
@@ -72,14 +72,26 @@ const HomeScreen = () => {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [currentProfile, setCurrentProfile] = useState(profilesData[0]);
 
-  const fetchMathches = async () => {
+  const fetchMatches = async () => {
     try {
       const response = await api.get(`/matches?userId=${userId}`);
-      const matches = response.data; // No need for .matches here, as the response itself is an array of matches
+      const matches = response.data;
       setProfilesData(matches);
-      console.log('Matches Data:', matches); // Log the matches data here
+      console.log('Matches Data:', matches);
     } catch (error) {
-      console.log('Error fetching matches:', error); // Log the error for debugging
+      console.log('Error fetching matches:', error);
+    }
+  };
+
+  const blockUser = async () => {
+    try {
+      const response = await api.post(`/block-user`, {
+        userId,
+        blockedUserId: currentProfile._id,
+      });
+      fetchMatches();
+    } catch (error) {
+      console.log('Error blocking user:', error);
     }
   };
 
@@ -100,7 +112,7 @@ const HomeScreen = () => {
   };
   useEffect(() => {
     if (userId) {
-      fetchMathches();
+      fetchMatches();
     }
   }, [userId]);
   useEffect(() => {
@@ -108,6 +120,15 @@ const HomeScreen = () => {
       setCurrentProfile(profilesData[0]);
     }
   }, [profilesData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log('Fetching matches');
+      if (userId) {
+        fetchMatches();
+      }
+    }, [userId]),
+  );
 
   const age = currentProfile ? calculateAge(currentProfile.dateOfBirth) : null;
 
@@ -192,9 +213,9 @@ const HomeScreen = () => {
                   <Text style={styles.userFirstName}>
                     {currentProfile?.firstName}
                   </Text>
-                  <View style={styles.userCardView4}>
+                  {/* <View style={styles.userCardView4}>
                     <Text style={styles.userDesc}>new here</Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View>
                   <Entypo
@@ -219,7 +240,7 @@ const HomeScreen = () => {
                             image: currentProfile?.imageUrls[0],
                             name: currentProfile?.firstName,
                             userId: userId,
-                            likedUserId: currentProfile?.id,
+                            likedUserId: currentProfile?._id,
                           })
                         }
                         style={styles.likeButton}>
@@ -232,15 +253,15 @@ const HomeScreen = () => {
 
               <View style={styles.userCardView5}>
                 {currentProfile?.prompts.slice(0, 1).map((prompt, index) => (
-                  <>
-                    <View style={styles.promptsView} key={index}>
+                  <View key={index}>
+                    <View style={styles.promptsView}>
                       <Text style={styles.questionText}>{prompt.question}</Text>
                       <Text style={styles.answerText}>{prompt.answer}</Text>
                     </View>
                     <Pressable style={styles.likeButton}>
                       <AntDesign name="hearto" size={22} color="#C5B358" />
                     </Pressable>
-                  </>
+                  </View>
                 ))}
               </View>
 
@@ -313,11 +334,7 @@ const HomeScreen = () => {
               <View>
                 {currentProfile?.imageUrls.slice(3, 4).map((image, index) => (
                   <View style={styles.imageView} key={index}>
-                    <Image
-                      key={index}
-                      source={{uri: image}}
-                      style={styles.userImage}
-                    />
+                    <Image source={{uri: image}} style={styles.userImage} />
                   </View>
                 ))}
               </View>
@@ -352,7 +369,7 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
 
-      <Pressable style={styles.cancelButton}>
+      <Pressable onPress={blockUser} style={styles.cancelButton}>
         <Entypo name="cross" size={22} color="red" />
       </Pressable>
     </>

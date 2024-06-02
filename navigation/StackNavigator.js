@@ -29,6 +29,9 @@ import ShowPromptsScreen from '../screens/ShowPromptsScreen';
 import PreFinalScreen from '../screens/PreFinalScreen';
 import {AuthContext} from '../AuthContext';
 import SendLikeScreen from '../screens/SendLikeScreen';
+import LoginScreen from '../screens/LoginScreen';
+import HandleLikeScreen from '../screens/HandleLikeScreen';
+import ChatRoom from '../screens/ChatRoom';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -112,6 +115,12 @@ const StackNavigator = () => {
   const AuthStack = () => {
     return (
       <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="Basic"
           component={BasicInfo}
@@ -209,6 +218,17 @@ const StackNavigator = () => {
           name="SendLike"
           component={SendLikeScreen}
           options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="HandleLike"
+          component={HandleLikeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChatRoom"
+          component={ChatRoom}
+          // options={{headerShown: false}}
         />
       </Stack.Navigator>
     );

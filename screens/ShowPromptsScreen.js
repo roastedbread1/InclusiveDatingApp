@@ -106,19 +106,19 @@ const ShowPromptsScreen = () => {
   };
 
   const addPrompt = () => {
-  const newPrompt = {question,answer};
-  setPrompts([...prompts, newPrompt]);
-  setQuestion('');
-  setAnswer('');
-  setIsModalVisible(false);
-  if (prompts.length == 3) {
+    const newPrompt = {question, answer};
+    setPrompts([...prompts, newPrompt]);
+    setQuestion('');
+    setAnswer('');
     setIsModalVisible(false);
-    navigation.navigate('Prompt', {
-      prompts : prompts,
-    });
-  }
-
-  }
+    //TODO: Make it so that the user doesnt have to add anything above 3, since now you need to do this 4 times before navigating back
+    if (prompts.length == 3) {
+      setIsModalVisible(false);
+      navigation.navigate('Prompt', {
+        prompts: prompts,
+      });
+    }
+  };
   return (
     <>
       <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -236,7 +236,7 @@ const ShowPromptsScreen = () => {
                 placeholder="Enter your answer"
               />
             </View>
-            <Button onPress={addPrompt} title = "Add"></Button>
+            <Button onPress={addPrompt} title="Add"></Button>
           </View>
         </ModalContent>
       </BottomModal>
