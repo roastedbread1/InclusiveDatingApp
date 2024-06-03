@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {
   StyleSheet,
@@ -69,7 +70,18 @@ const ProfileScreen = () => {
       getUserDetails();
     }
   }, [userId]);
-  console.log('Current Profile:', currentProfile);
+
+  const logout = () => {
+    clearAuthToken();
+  };
+  const clearAuthToken = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      setToken(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.imgView}>
@@ -87,7 +99,12 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.profileView}>
-        <Pressable>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('Details', {
+              currentProfile: currentProfile,
+            })
+          }>
           <Image
             style={styles.userImg}
             source={{uri: currentProfile?.imageUrls[0]}}
@@ -101,6 +118,10 @@ const ProfileScreen = () => {
       <View style={styles.randImgView}>
         <Image style={styles.randImg} source={require('../assets/Downy.png')} />
       </View>
+
+      <Pressable onPress={logout} style={styles.logoutP}>
+        <Text style={styles.logout}>Log Out</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
@@ -161,5 +182,21 @@ const styles = StyleSheet.create({
     height: 250,
     width: '100%',
     borderRadius: 10,
+  },
+  logout: {
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  logoutP: {
+    borderBlockColor: 'black',
+    marginTop: 20,
+    padding: 12,
+    borderRadius: 30,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 120,
   },
 });

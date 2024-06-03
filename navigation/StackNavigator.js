@@ -32,6 +32,8 @@ import SendLikeScreen from '../screens/SendLikeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HandleLikeScreen from '../screens/HandleLikeScreen';
 import ChatRoom from '../screens/ChatRoom';
+import ProfileDetails from '../screens/ProfileDetails';
+import Detection from '../screens/Detection';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -229,6 +231,12 @@ const StackNavigator = () => {
           name="ChatRoom"
           component={ChatRoom}
           // options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="Details"
+          component={ProfileDetails}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     );
