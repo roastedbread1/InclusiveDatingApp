@@ -15,7 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthContext} from '../AuthContext';
 import api from '../api';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();

@@ -98,7 +98,7 @@ const GenderScreen = () => {
               <FontAwesome
                 name="circle"
                 size={26}
-                color={gender == 'Male' ? '#581845' : '#F0F0F0'}
+                color={gender == 'Male' ? 'black' : '#F0F0F0'}
               />
             </Pressable>
           </View>
@@ -115,7 +115,7 @@ const GenderScreen = () => {
               <FontAwesome
                 name="circle"
                 size={26}
-                color={gender == 'Female' ? '#581845' : '#F0F0F0'}
+                color={gender == 'Female' ? 'black' : '#F0F0F0'}
               />
             </Pressable>
           </View>
@@ -132,7 +132,7 @@ const GenderScreen = () => {
               <FontAwesome
                 name="circle"
                 size={26}
-                color={gender == 'Non-Binary' ? '#581845' : '#F0F0F0'}
+                color={gender == 'Non-Binary' ? 'black' : '#F0F0F0'}
               />
             </Pressable>
           </View>
@@ -160,7 +160,7 @@ const GenderScreen = () => {
             style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
-            color="#581845"
+            color="black"
           />
         </TouchableOpacity>
       </View>

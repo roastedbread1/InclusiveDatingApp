@@ -128,7 +128,7 @@ const DatingType = () => {
               <FontAwesome
                 name="circle"
                 size={26}
-                color={datingPref.includes('Everyone') ? '#581845' : '#F0F0F0'}
+                color={datingPref.includes('Everyone') ? 'black' : '#F0F0F0'}
               />
             </Pressable>
           </View>
@@ -155,7 +155,7 @@ const DatingType = () => {
             style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
-            color="#581845"
+            color="black"
           />
         </TouchableOpacity>
       </View>

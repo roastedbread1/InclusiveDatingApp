@@ -88,6 +88,7 @@ const LoginScreen = () => {
               />
               <TextInput
                 placeholder="Enter your email"
+                placeholderTextColor="white"
                 value={email}
                 onChangeText={text => setEmail(text)}
                 style={styles.textInput}
@@ -104,6 +105,7 @@ const LoginScreen = () => {
               <TextInput
                 secureTextEntry={true}
                 placeholder="Enter your password"
+                placeholderTextColor="white"
                 value={password}
                 onChangeText={text => setPassword(text)}
                 style={styles.textInput}
@@ -131,7 +133,7 @@ const LoginScreen = () => {
           styles.createAccountBtn,
           {
             backgroundColor:
-              option === 'Create Account' ? 'pink' : 'transparent',
+              option === 'Create Account' ? '#F0F0F0' : 'transparent',
           },
         ]}>
         <Text
@@ -148,7 +150,7 @@ const LoginScreen = () => {
         style={[
           styles.createAccountBtn,
           {
-            backgroundColor: option === 'Sign In' ? 'pink' : 'transparent',
+            backgroundColor: option === 'Sign In' ? 'black' : 'transparent',
           },
         ]}>
         <Text
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
   },
   view2: {
     height: 200,
-    backgroundColor: '#ffc0cb',
+    backgroundColor: 'black',
     width: '100%',
     borderBottomLeftRadius: 100,
     borderBottomRightRadius: 100,
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: 'pink',
+    backgroundColor: 'black',
     paddingVertical: 0,
     borderRadius: 5,
     marginTop: 30,

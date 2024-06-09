@@ -98,7 +98,7 @@ const HometownScreen = () => {
             style={{alignSelf: 'center', marginTop: 20}}
             name="arrow-right-circle"
             size={45}
-            color="#581845"
+            color="black"
           />
         </TouchableOpacity>
       </View>

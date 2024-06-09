@@ -46,7 +46,7 @@ const ChatRoom = () => {
       headerLeft: () => (
         <View style={styles.headerView}>
           <Pressable onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color="gray" />
+            <Ionicons name="arrow-back" size={24} color="black" />
           </Pressable>
           <View>
             <Text style={styles.text}>{route?.params?.name}</Text>
@@ -85,7 +85,7 @@ const ChatRoom = () => {
               item?.senderId === route?.params?.senderId
                 ? {
                     alignSelf: 'flex-end',
-                    backgroundColor: 'lightgray',
+                    backgroundColor: 'black',
                     padding: 8,
                     maxWidth: '60%',
                     borderRadius: 7,
@@ -93,7 +93,7 @@ const ChatRoom = () => {
                   }
                 : {
                     alignSelf: 'flex-start',
-                    backgroundColor: 'gray',
+                    backgroundColor: 'black',
                     padding: 8,
                     maxWidth: '60%',
                     borderRadius: 7,
@@ -111,7 +111,7 @@ const ChatRoom = () => {
           style={{marginRight: 7}}
           name="emoji-happy"
           size={24}
-          color="gray"
+          color="black"
         />
         <TextInput
           value={message}
@@ -120,8 +120,8 @@ const ChatRoom = () => {
           placeholder="Type your message..."
         />
         <View style={styles.msgView}>
-          <Entypo name="camera" size={24} color="gray" />
-          <Feather name="mic" size={24} color="gray" />
+          <Entypo name="camera" size={24} color="black" />
+          <Feather name="mic" size={24} color="black" />
         </View>
         <Pressable
           onPress={() =>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   pressable: {
-    backgroundColor: 'gray',
+    backgroundColor: 'black',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
