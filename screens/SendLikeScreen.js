@@ -54,7 +54,7 @@ const SendLikeScreen = () => {
 
         <View style={styles.iconView}>
           <Pressable onPress={likeProfile} style={styles.sendLikeButton}>
-            <Text style={styles.sendLikeText}>Send Like</Text>
+            <Text style={styles.sendLikeText}> Like</Text>
           </Pressable>
         </View>
       </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   sendLikeButton: {
-    backgroundColor: '#FFFDD0',
+    backgroundColor: '#black',
     padding: 10,
     borderRadius: 20,
     flex: 1,
@@ -106,5 +106,6 @@ const styles = StyleSheet.create({
   sendLikeText: {
     textAlign: 'center',
     fontWeight: 'bold',
+    color: 'white',
   },
 });

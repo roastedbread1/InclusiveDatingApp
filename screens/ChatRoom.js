@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import {
@@ -93,7 +94,7 @@ const ChatRoom = () => {
                   }
                 : {
                     alignSelf: 'flex-start',
-                    backgroundColor: 'black',
+                    backgroundColor: '#ECECEC',
                     padding: 8,
                     maxWidth: '60%',
                     borderRadius: 7,
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     height: 40,
+    color: 'black',
   },
   msgView: {
     flexDirection: 'row',
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 15,
     textAlign: 'center',
-    color: 'black',
+    color: 'white',
     fontWeight: '500',
   },
   time: {

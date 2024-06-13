@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
   animationContainer: {
-    width: 250, // Adjust the width as needed
-    height: 250, // Adjust the height as needed
+    width: 250, 
+    height: 250, 
     alignSelf: 'center',
     justifyContent: 'center',
   },
